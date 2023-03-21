@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시판</title>
+    <link href="./css/reset.css" rel="stylesheet" />
+    <link href="./css/common.css" rel="stylesheet" />
+    <link href="./css/board.css" rel="stylesheet" />
+  </head>
+  <body>
+    <section class="notice">
+      <div class="page-title">
+        <div class="container">
+          <h3>게시판</h3>
+        </div>
+      </div>
+
+      <!-- board seach area -->
+      <div id="board-search">
+        <div class="container">
+          <div class="search-window">
+            <form id="frm">
+              <div class="search-wrap">
+                <!-- <label for="search" class="blind">공지사항 내용 검색</label> -->
+                <input
+                  type="text"
+                  name="searchName"
+                  id="searchName"
+                  placeholder="검색어를 입력해주세요."
+                />
+                <button type="button" id="btnSearch" class="btn btn-dark">
+                  검색
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- board list area -->
+      <div id="board-list">
+        <div class="container">
+          <table id="tb" class="board-table">
+            <thead>
+              <tr>
+                <th scope="col" class="th-num">번호</th>
+                <th scope="col" class="th-title">제목</th>
+                <th scope="col" class="th-writer">글쓴이</th>
+                <th scope="col" class="th-date">등록일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr>
+                <td>4</td>
+                <th>
+                  <a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a>
+                  <p>테스트</p>
+                </th>
+                <td>jhn2762</td>
+                <td>2017.07.13</td>
+              </tr>
+
+              <tr>
+                <td>3</td>
+                <th>
+                  <a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a>
+                </th>
+                <td>jhn2762</td>
+                <td>2017.06.15</td>
+              </tr>
+
+              <tr>
+                <td>2</td>
+                <th>
+                  <a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a>
+                </th>
+                <td>jhn2762</td>
+                <td>2017.06.15</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <th>
+                  <a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a>
+                </th>
+                <td>jhn2762</td>
+                <td>2017.06.15</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- regist area -->
+      <div class="btnRegistStyle">
+        <button id="btnRegist" class="btn regist" type="submit">글쓰기</button>
+      </div>
+    </section>
+  </body>
+</html>
+
+<script>
+  //*************************************************
+  // declare
+  //*************************************************
+  const frm = document.getElementById('frm');
+  const searchName = document.getElementById('searchName');
+  const btnSearch = document.getElementById('btnSearch');
+  const btnRegist = document.getElementById('btnRegist');
+
+  //*************************************************
+  // DOMContentLoaded
+  //*************************************************
+  window.addEventListener('DOMContentLoaded', () => {
+    btnRegist.addEventListener('click', (e) => {
+      e.preventDefault();
+    });
+
+    getBoardList();
+  });
+
+  function getBoardList() {
+    let tag = '';
+    const dataSet = { searchText: searchName.value };
+
+    fetch('./php/getBoardList.php', {
+      method: 'POST',
+      body: JSON.stringify(dataSet),
+    })
+      .then((data) => data.json())
+      .then((json) => {
+        json.response.result.map((item) => {
+          tag += `<tr>`;
+          tag += `<td>${item.idx}</td>`;
+          tag += `<td><a href="#">${item.title}</a></td>`;
+          tag += `<td>${item.id}</td>`;
+          tag += `<td>${item.date}</td>`;
+          tag += `</tr>`;
+        });
+        document.querySelector('#tb > tbody').innerHTML = tag;
+      });
+  }
+</script>

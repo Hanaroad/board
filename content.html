@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>글쓰기</title>
+  </head>
+  <body>
+    <h1>CKEditor</h1>
+    <form action="" method="POST">
+      <textarea name="text" id="editor"></textarea>
+      <p><input type="submit" value="전송" /></p>
+    </form>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js/ko.js"></script>
+    <script>
+      ClassicEditor.create(document.querySelector('#editor'));
+    </script>
+  </body>
+</html>

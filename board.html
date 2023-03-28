@@ -8,6 +8,10 @@
     <link href="./css/reset.css" rel="stylesheet" />
     <link href="./css/common.css" rel="stylesheet" />
     <link href="./css/board.css" rel="stylesheet" />
+    <script
+      src="https://kit.fontawesome.com/6ad5a44fe0.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <section class="notice">
@@ -21,20 +25,18 @@
       <div id="board-search">
         <div class="container">
           <div class="search-window">
-            <form id="frm">
-              <div class="search-wrap">
-                <!-- <label for="search" class="blind">공지사항 내용 검색</label> -->
-                <input
-                  type="text"
-                  name="searchName"
-                  id="searchName"
-                  placeholder="검색어를 입력해주세요."
-                />
-                <button type="button" id="btnSearch" class="btn btn-dark">
-                  검색
-                </button>
-              </div>
-            </form>
+            <div class="search-wrap">
+              <!-- <label for="search" class="blind">공지사항 내용 검색</label> -->
+              <input
+                type="text"
+                name="searchName"
+                id="searchName"
+                placeholder="검색어를 입력해주세요."
+              />
+              <button id="btnSearch" class="btn btn-dark">검색</button>
+              <!-- 새로고침 -->
+              <i id="btnReload" class="fa-sharp fa-solid fa-rotate-right"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -51,50 +53,16 @@
                 <th scope="col" class="th-date">등록일</th>
               </tr>
             </thead>
-            <tbody>
-              <!-- <tr>
-                <td>4</td>
-                <th>
-                  <a href="#!">[공지사항] 개인정보 처리방침 변경안내처리방침</a>
-                  <p>테스트</p>
-                </th>
-                <td>jhn2762</td>
-                <td>2017.07.13</td>
-              </tr>
-
-              <tr>
-                <td>3</td>
-                <th>
-                  <a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a>
-                </th>
-                <td>jhn2762</td>
-                <td>2017.06.15</td>
-              </tr>
-
-              <tr>
-                <td>2</td>
-                <th>
-                  <a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a>
-                </th>
-                <td>jhn2762</td>
-                <td>2017.06.15</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <th>
-                  <a href="#!">공지사항 안내입니다. 이용해주셔서 감사합니다</a>
-                </th>
-                <td>jhn2762</td>
-                <td>2017.06.15</td>
-              </tr> -->
-            </tbody>
+            <tbody></tbody>
           </table>
         </div>
       </div>
 
       <!-- regist area -->
       <div class="btnRegistStyle">
-        <button id="btnRegist" class="btn regist" type="submit">글쓰기</button>
+        <a class="btn regist" href="http://localhost/board/php/board.php"
+          >글쓰기</a
+        >
       </div>
     </section>
   </body>
@@ -107,17 +75,23 @@
   const frm = document.getElementById('frm');
   const searchName = document.getElementById('searchName');
   const btnSearch = document.getElementById('btnSearch');
-  const btnRegist = document.getElementById('btnRegist');
+  const btnReload = document.getElementById('btnReload');
 
   //*************************************************
   // DOMContentLoaded
   //*************************************************
   window.addEventListener('DOMContentLoaded', () => {
-    btnRegist.addEventListener('click', (e) => {
-      e.preventDefault();
-    });
+    // btnRegist.addEventListener('click', (e) => {
+    //   e.preventDefault();
+    // });
 
     getBoardList();
+
+    searchName.addEventListener('keyup', (e) => {
+      if (e.keyCode == 13) {
+        getBoardList();
+      }
+    });
   });
 
   function getBoardList() {
@@ -130,15 +104,30 @@
     })
       .then((data) => data.json())
       .then((json) => {
-        json.response.result.map((item) => {
+        if (json.response.result.length > 0) {
+          json.response.result.map((item) => {
+            tag += `<tr>`;
+            tag += `<td>${item.idx}</td>`;
+            tag += `<td><a href="./php/view.php">${item.title}</a></td>`;
+            tag += `<td>${item.id}</td>`;
+            tag += `<td>${item.date}</td>`;
+            tag += `</tr>`;
+          });
+        } else {
           tag += `<tr>`;
-          tag += `<td>${item.idx}</td>`;
-          tag += `<td><a href="#">${item.title}</a></td>`;
-          tag += `<td>${item.id}</td>`;
-          tag += `<td>${item.date}</td>`;
+          tag += `<td colspan='4'>검색 결과가 없습니다</td>`;
           tag += `</tr>`;
-        });
+        }
         document.querySelector('#tb > tbody').innerHTML = tag;
       });
   }
+
+  btnSearch.addEventListener('click', () => {
+    getBoardList();
+  });
+
+  btnReload.addEventListener('click', () => {
+    searchName.value = '';
+    getBoardList();
+  });
 </script>

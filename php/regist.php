@@ -28,10 +28,10 @@ if($uid > 0) {
 if($uid != "") {
     $sql = "update board set title='".$title."', content='".$content."', id='".$id."', date='".$date."' where uid=".$uid;
 } else {
-    if(mysqli_num_rows($result) > 0) {
-        echo "이미 등록된 사용자입니다";
-        exit;
-    }
+    // if(mysqli_num_rows($result) > 0) {
+    //     echo "이미 등록된 사용자입니다";
+    //     exit;
+    // }
     $sql = "insert into board (title,content,id,date) values ('$title', '$content', '$id', '$date')";
 }
 

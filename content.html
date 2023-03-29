@@ -4,14 +4,27 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/boardEditor.css" rel="stylesheet" />
     <title>글쓰기</title>
   </head>
   <body>
-    <h1>CKEditor</h1>
-    <form action="" method="POST">
-      <textarea name="text" id="editor"></textarea>
-      <p><input type="submit" value="전송" /></p>
-    </form>
+    <div class="frmParent">
+      <form action="" method="POST">
+        <div class="keyStyle">
+          <div>
+            제 &nbsp;목&nbsp;&nbsp;
+            <input type="text" id="title" class="inputStyle" name="title" />
+          </div>
+          <div>
+            글쓴이&nbsp;&nbsp; <input id="id" class="inputStyle" type="text" />
+          </div>
+        </div>
+        <textarea name="text" id="editor"></textarea>
+        <div class="btnLocation">
+          <input class="btnReg" type="submit" value="전송" />
+        </div>
+      </form>
+    </div>
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js/ko.js"></script>
     <script>

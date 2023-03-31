@@ -9,26 +9,90 @@
   </head>
   <body>
     <div class="frmParent">
-      <form action="" method="POST">
+      <form id="frm">
         <div class="keyStyle">
           <div>
+            <input type="hidden" name="idx" id="idx" />
             제 &nbsp;목&nbsp;&nbsp;
             <input type="text" id="title" class="inputStyle" name="title" />
           </div>
           <div>
-            글쓴이&nbsp;&nbsp; <input id="id" class="inputStyle" type="text" />
+            작성자&nbsp;&nbsp;
+            <input type="text" id="id" class="inputStyle" name="id" />
           </div>
+          <input type="hidden" name="date" id="date" />
         </div>
-        <textarea name="text" id="editor"></textarea>
+        <textarea name="boardEditor" id="editor"></textarea>
+        <input type="hidden" name="content" id="content" />
         <div class="btnLocation">
-          <input class="btnReg" type="submit" value="전송" />
+          <input type="submit" id="btnRegist" class="btnReg" value="등록" />
         </div>
       </form>
     </div>
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js/ko.js"></script>
     <script>
-      ClassicEditor.create(document.querySelector('#editor'));
+      // declare
+      const frm = document.getElementById('frm');
+      const title = document.getElementById('title');
+      const id = document.getElementById('id');
+      const btnRegist = document.getElementById('btnRegist');
+      let editor;
+
+      // DOMContentLoaded
+      window.addEventListener('DOMContentLoaded', () => {
+        ClassicEditor.create(document.querySelector('#editor'))
+          .then((newEditor) => {
+            editor = newEditor;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+
+        btnRegist.addEventListener('click', (e) => {
+          if (!editor) {
+            alert('에디터가 아직 로드되지 않았습니다');
+            return false;
+          }
+
+          e.preventDefault();
+
+          document.getElementById('content').value = editor.getData();
+
+          // value 비었을 때 alert
+          if (title.value == '') {
+            alert('제목을 입력하세요');
+            return false;
+          }
+          if (id.value == '') {
+            alert('작성자를 입력하세요');
+            return false;
+          }
+
+          // form data
+          const payload = new FormData(frm);
+
+          // Send form data to server
+          fetch('./php/regist.php', {
+            method: 'POST',
+            body: payload,
+          })
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error('네트워크 응답이 좋지 않습니다');
+              }
+              return res.text();
+            })
+            .then((data) => {
+              if (data) {
+                throw new Error(data);
+              } else {
+              }
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        });
+      });
     </script>
   </body>
 </html>

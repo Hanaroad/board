@@ -4,10 +4,6 @@ include"./dbconnect.php";
 // 데이터 가져오기
 $jsonString = file_get_contents('php://input');
 
-    // echo "<pre>";
-    // print_r($_POST);
-    // echo "</pre>";
-
 // PHP로 문자열을 JSON 형식으로 변환
 $obj = json_decode($jsonString);
 

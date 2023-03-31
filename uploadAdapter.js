@@ -16,7 +16,7 @@ class uploadAdapter {
 
   _initRequest() {
     const xhr = (this.xhr = new XMLHttpRequest());
-    xhr.open('POST', 'http://localhost:8000/api/image/upload', true);
+    xhr.open('POST', './upload/', true);
     xhr.responseType = 'json';
   }
 

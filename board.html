@@ -26,7 +26,6 @@
         <div class="container">
           <div class="search-window">
             <div class="search-wrap">
-              <!-- <label for="search" class="blind">공지사항 내용 검색</label> -->
               <input
                 type="text"
                 name="searchName"
@@ -34,6 +33,7 @@
                 placeholder="검색어를 입력해주세요."
               />
               <button id="btnSearch" class="btn btn-dark">검색</button>
+
               <!-- 새로고침 -->
               <i id="btnReload" class="fa-sharp fa-solid fa-rotate-right"></i>
             </div>
@@ -47,10 +47,10 @@
           <table id="tb" class="board-table">
             <thead>
               <tr>
-                <th scope="col" class="th-num">번호</th>
+                <th scope="col" class="th-num">No.</th>
                 <th scope="col" class="th-title">제목</th>
-                <th scope="col" class="th-writer">글쓴이</th>
-                <th scope="col" class="th-date">등록일</th>
+                <th scope="col" class="th-writer">작성자</th>
+                <th scope="col" class="th-date">작성일</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -67,22 +67,13 @@
 </html>
 
 <script>
-  //*************************************************
   // declare
-  //*************************************************
-  const frm = document.getElementById('frm');
   const searchName = document.getElementById('searchName');
   const btnSearch = document.getElementById('btnSearch');
   const btnReload = document.getElementById('btnReload');
 
-  //*************************************************
   // DOMContentLoaded
-  //*************************************************
   window.addEventListener('DOMContentLoaded', () => {
-    // btnRegist.addEventListener('click', (e) => {
-    //   e.preventDefault();
-    // });
-
     getBoardList();
 
     searchName.addEventListener('keyup', (e) => {

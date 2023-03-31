@@ -6,33 +6,21 @@ include "./dbconnect.php";
 extract($_POST);
 extract($_GET);
 
-// if($name == "") {
-//     echo "이름을 입력하세요";
-//     exit;
-// };
+$now = date("Y-m-d H:i:s");
 
-// if($id == "") {
-//     echo "id를 입력하세요";
-//     exit;
-// };
-
-$sql = "select uid from board where id='".$id."'";
+$sql = "select idx from board where id='".$id."'";
 $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
-if($uid > 0) {
+if($idx > 0) {
     $sql = "select * from board where idx=".$idx;
     $result = mysqli_query($conn, $sql);
     $old = mysqli_fetch_object($result);
 }
 
-if($uid != "") {
-    $sql = "update board set title='".$title."', content='".$content."', id='".$id."', date='".$date."' where uid=".$uid;
+if($idx != "") {
+    $sql = "update board set title='".$title."', content='".$content."', id='".$id."', date='".$now."' where idx=".$idx;
 } else {
-    // if(mysqli_num_rows($result) > 0) {
-    //     echo "이미 등록된 사용자입니다";
-    //     exit;
-    // }
-    $sql = "insert into board (title,content,id,date) values ('$title', '$content', '$id', '$date')";
+    $sql = "insert into board (title,content,id,date) values ('$title', '$content', '$id', '$now')";
 }
 
 mysqli_query($conn, $sql) or die (mysqli_error($conn));
